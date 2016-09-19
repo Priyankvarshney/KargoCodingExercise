@@ -1,0 +1,63 @@
+package com.Kargo.test;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+
+import com.Kargo.Operations.Operations_Selenium;
+import com.Kargo.helper.AboutUsHelper;
+
+
+
+
+public class VerifyAboutUs {
+	
+@Test
+public void verifyAboutUSAndFileKeywords(){
+	WebDriver driver=null;
+	try{
+	driver=new FirefoxDriver();
+	//driver.get("http://google.com");
+	Operations_Selenium operations=new Operations_Selenium(driver);
+	/*operations.sendKeys("//input[@title='Search']", "Kargo");
+	operations.click("//button[@type='submit']");
+	Thread.sleep(4000);
+	operations.click("//a[@href='http://www.kargo.com/']");
+	Thread.sleep(4000);
+	operations.click("//a[@class='nav-button js-nav-toggle']");
+	operations.click("//a[@href='http://www.kargo.com/about/']");*/
+	
+	
+	driver.get("http://google.com");
+	AboutUsHelper helper=new AboutUsHelper();
+	ArrayList<String> keyWords=helper.getKeywordsFromTxtFile();
+	if(keyWords!=null){
+	Iterator<String> itr=keyWords.iterator();
+	while(itr.hasNext()){
+		operations.clearText("//input[@title='Search']");
+		operations.sendKeys("//input[@title='Search']", itr.next());
+		System.out.println(operations.getPageTitle());
+		Thread.sleep(4000);
+		operations.click("//button[@type='submit']");
+		Thread.sleep(6000);
+	}
+	}
+	driver.quit();
+	
+	
+	}catch(Exception e){
+		System.out.println("Exception Occured: "+e.getMessage());
+		driver.quit();
+		Assert.fail("Exception Occured: "+e.getMessage());
+	}
+	
+}
+	
+
+}

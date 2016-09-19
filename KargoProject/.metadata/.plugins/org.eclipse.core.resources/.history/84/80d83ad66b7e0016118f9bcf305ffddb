@@ -1,0 +1,64 @@
+package com.Kargo.helper;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+
+public class AboutUsHelper {
+	
+	/*
+	 * Method  - getKeywordsFromTxtFile
+	 * Accepts - no arguments
+	 * Returns - ArrayList of strings
+	 * Description: Read the keywords form text file and add it to ArrayList
+	 */
+	
+	public ArrayList<String> getKeywordsFromTxtFile(){
+		try {
+		ArrayList<String> keyWords=new ArrayList<String>();
+		FileInputStream fstream=null;
+		
+			fstream = new FileInputStream("src/Keywords");
+		
+	    BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+	    String line;
+	    while((line = br.readLine()) != null)
+	    {
+	        System.out.println(line);
+	        keyWords.add(line);
+	    }
+	    br.close();
+	    return keyWords;
+	    
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/*
+	 * Method  - verifyPageTitle
+	 * Accepts - Two String Arguments: actualPageTitle, expectedPageTitle
+	 * Returns - Boolean value based on actualPageTitle and expectedPageTitle comparison
+	 * Description: Compares the actualPageTitle with the expectedPageTitle and returns a boolean value
+	 */
+	
+	public boolean verifyPageTitle(String actualPageTitle, String expectedPageTitle){
+		if(actualPageTitle.equalsIgnoreCase(expectedPageTitle)){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+
+}

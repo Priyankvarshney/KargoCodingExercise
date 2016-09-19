@@ -1,0 +1,47 @@
+package com.Kargo.Operations;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import com.Kargo.errorHandler.GenericException;
+
+public class Operations_Selenium {
+	
+	private WebDriver driver=null;
+	private WebElement element=null;
+	
+	public Operations_Selenium(WebDriver driver){
+		this.driver=driver;
+	}
+	
+	public WebElement locateElement(String xPathString) throws GenericException{
+		try{
+		element=driver.findElement(By.xpath(xPathString));
+		if(element==null){
+			System.out.println("Unable to locate the element: "+xPathString);
+			throw new GenericException("Element not Found: "+xPathString);
+		}
+		else{
+			System.out.println("Element Located for xPath: "+xPathString);
+			return element;
+		}
+	}catch(Exception e){
+		System.out.println("Exception occured: "+e.getMessage());
+		throw new GenericException("Element not Found: "+xPathString);
+	}
+	}
+	
+	public void click(String xPath) throws GenericException{
+		element=locateElement(xPath);
+		if(element==null){
+			System.out.println("Unable to locate the element: "+xPath);
+			throw new GenericException("Element not Found: "+xPath);
+		}else{
+		element.click();
+		}
+	}
+	
+	
+
+}

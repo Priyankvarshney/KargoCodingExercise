@@ -1,0 +1,35 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class VerifyKargo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		WebDriver driver=new FirefoxDriver();
+		driver.get("http://google.com");
+		System.out.println(driver.getTitle());
+		WebElement element=driver.findElement(By.xpath("//input[@title='Search']"));
+		if(element!=null){
+			element.sendKeys("Kargo");
+			element=driver.findElement(By.xpath("//button[@type='submit']"));
+			element.click();
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try{
+			element=driver.findElement(By.xpath("//a[@href='http://www.kargo.c']"));
+			element.click();
+			}catch(RuntimeException e){
+				System.out.println(e.getMessage());
+			}
+		}
+
+	}
+
+}

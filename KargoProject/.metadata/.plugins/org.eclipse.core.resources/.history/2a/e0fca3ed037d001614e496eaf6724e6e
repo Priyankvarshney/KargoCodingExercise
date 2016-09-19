@@ -1,0 +1,7 @@
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class VerifyKargoAboutUs {
+	
+	FirefoxDriver driver = new FirefoxDriver();
+
+}

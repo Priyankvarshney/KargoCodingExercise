@@ -1,0 +1,10 @@
+package com.Kargo.helper;
+
+public class PageTitles {
+	
+	public static String googleHomePageTitle="Google";
+	public static String kargoHomePageTitle="http://www.kargo.com/";
+	public static String kargoAboutPageTitle="http://www.kargo.com/";
+	
+
+}

@@ -1,0 +1,79 @@
+package com.Kargo.test;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+
+import com.Kargo.Operations.Operations_Selenium;
+import com.Kargo.helper.AboutUsHelper;
+import com.Kargo.helper.PageTitles;
+
+
+
+
+public class VerifyAboutUs {
+
+	@Test
+	public void verifyAboutUSAndFileKeywords(){
+		WebDriver driver=null;
+		try{
+			AboutUsHelper helper=new AboutUsHelper();
+			driver=new FirefoxDriver();
+			driver.get("http://google.com");
+			Operations_Selenium operations=new Operations_Selenium(driver);
+			operations.sendKeys("//input[@title='Search']", "Kargo");
+			operations.click("//button[@type='submit']");
+			operations.click("//a[@href='http://www.kargo.com/']");
+			String title=driver.getTitle();
+			if(!helper.verifyPageTitle(driver.getTitle(), PageTitles.kargoHomePageTitle)){
+				Assert.fail("Expetected Page Title as "+PageTitles.kargoHomePageTitle+" but actual is "+driver.getTitle()+". Page Navigation incorrect");
+				driver.quit();
+			}else{
+				System.out.println("Expected page title found after the keyword serach: "+operations.getPageTitle());
+			}
+			operations.click("//a[@class='nav-button js-nav-toggle']");
+			operations.click("//a[@href='http://www.kargo.com/about/']");
+			if(!helper.verifyPageTitle(driver.getTitle(), PageTitles.kargoAboutPageTitle)){
+				Assert.fail("Expetected Page Title as "+PageTitles.kargoAboutPageTitle+" but actual is "+driver.getTitle()+". Page Navigation incorrect");
+				driver.quit();
+			}else{
+				System.out.println("Expected page title found after the keyword serach: "+operations.getPageTitle());
+			}
+			driver.get("http://google.com");
+			
+			ArrayList<String> keyWords=helper.getKeywordsFromTxtFile();
+			if(keyWords!=null){
+				Iterator<String> itr=keyWords.iterator();
+				while(itr.hasNext()){
+					String keyToSearch=itr.next();
+					operations.clearText("//input[@title='Search']");
+					operations.sendKeys("//input[@title='Search']", keyToSearch);
+					operations.click("//button[@type='submit']");
+					operations.waitForElementToBeClickable("//a[@class='q qs']");
+					if(!helper.verifyPageTitle(driver.getTitle(), keyToSearch+" - Google Search")){
+						Assert.fail("Expetected Page Title as "+keyToSearch+" - Google Search"+" but actual is "+driver.getTitle()+". Page Navigation incorrect");
+						driver.quit();
+					}else{
+						System.out.println("Expected page title found after the keyword serach: "+operations.getPageTitle());
+					}
+				}
+			}
+			driver.quit();
+
+
+		}catch(Exception e){
+			System.out.println("Exception Occured: "+e.getMessage());
+			driver.quit();
+			Assert.fail("Exception Occured: "+e.getMessage());
+		}
+
+	}
+
+
+}

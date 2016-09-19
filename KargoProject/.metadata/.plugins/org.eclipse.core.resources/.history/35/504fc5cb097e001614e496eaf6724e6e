@@ -1,0 +1,114 @@
+package com.Kargo.Operations;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.Kargo.errorHandler.GenericException;
+
+/*
+ * Class - Operations_Selenium
+ * Description: This class is implemented to perform the operation on web pages
+ */
+
+public class Operations_Selenium {
+
+	private WebDriver driver=null;
+	private WebElement element=null;
+
+	public Operations_Selenium(WebDriver driver){
+		this.driver=driver;
+	}
+
+	/*
+	 * Method  - locateElement
+	 * Accepts - String argument xPathString
+	 * Returns - WebElement corresponding the element located for the xPathString
+	 * Description: Performs findElement search for the xPathString and returns the corresponding WebElement 
+	 */
+	public WebElement locateElement(String xPathString) throws GenericException{
+		try{
+			waitForElementToBeClickable(xPathString);
+			element=driver.findElement(By.xpath(xPathString));
+			if(element==null){
+				System.out.println("Unable to locate the element: "+xPathString);
+				throw new GenericException("Element not Found: "+xPathString);
+			}
+			else{
+				System.out.println("Element Located for xPath: "+xPathString);
+				return element;
+			}
+		}catch(Exception e){
+			System.out.println("Exception occured: "+e.getMessage());
+			throw new GenericException("Element not Found: "+xPathString);
+		}
+	}
+
+	/*
+	 * Method  - click
+	 * Accepts - String argument xPath
+	 * Returns - void
+	 * Description: Performs click operation on webElement located for the given xPath 
+	 */
+	public void click(String xPath) throws GenericException{
+		element=locateElement(xPath);
+		if(element==null){
+			System.out.println("Unable to locate the element: "+xPath);
+			throw new GenericException("Element not Found: "+xPath);
+		}else{
+			element.click();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Element clicked successfully for xpath: "+xPath);
+		}
+	}
+
+	/*
+	 * Method  - sendKeys
+	 * Accepts - two String arguments xPath
+	 * Returns - void
+	 * Description: Performs click operation on webElement located for the given xPath 
+	 */
+	public void sendKeys(String xpathString, String keysToSend) throws GenericException{
+
+		element=locateElement(xpathString);
+		if(element==null){
+			System.out.println("Unable to locate the element: "+xpathString);
+			throw new GenericException("Element not Found: "+xpathString);
+		}else{
+			element.sendKeys(keysToSend);
+			System.out.println("Text "+keysToSend+" entered successfully");
+		}
+
+	}
+
+	public void clearText(String xpathString) throws GenericException{
+		element=locateElement(xpathString);
+		if(element==null){
+			System.out.println("Unable to locate the element: "+xpathString);
+			throw new GenericException("Element not Found: "+xpathString);
+		}else{
+			element.clear();
+			System.out.println("Text cleared successfully");
+		}
+	}
+
+	public String getPageTitle(){
+		String pageTitle=driver.getTitle();
+		return pageTitle;
+	}
+
+	public void waitForElementToBeClickable(String xpathString){
+		WebDriverWait wt=new WebDriverWait(driver, 20);
+		wt.until(ExpectedConditions.elementToBeClickable(By.xpath(xpathString)));
+	}
+
+
+
+}

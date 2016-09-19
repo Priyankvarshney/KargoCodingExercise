@@ -1,0 +1,13 @@
+package com.Kargo.helper;
+
+public class XpathHelper {
+	
+	//xpath for Google Search text filed
+	public static String googleSearchTextField="//input[@title='Search']";
+	
+	//xpath for Google Search text filed
+	public static String googleSearchSubmitButton="//button[@type='submit']";
+	
+	
+
+}
